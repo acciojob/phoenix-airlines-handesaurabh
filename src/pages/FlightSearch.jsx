@@ -11,6 +11,8 @@ export default function FlightSearch() {
   const [date, setDate] = useState("");
   const [returnDate, setReturnDate] = useState("");
   const [flights, setFlights] = useState([]);
+  const [showFromDropdown, setShowFromDropdown] = useState(false);
+  const [showToDropdown, setShowToDropdown] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -26,6 +28,16 @@ export default function FlightSearch() {
     } catch (error) {
       console.error("Error searching flights:", error);
       setFlights([]);
+    }
+  };
+
+  const selectCity = (city, type) => {
+    if (type === 'from') {
+      setFrom(city);
+      setShowFromDropdown(false);
+    } else {
+      setTo(city);
+      setShowToDropdown(false);
     }
   };
 
@@ -56,23 +68,39 @@ export default function FlightSearch() {
         </label>
       </div>
 
-      <select value={from} onChange={e => setFrom(e.target.value)}>
-        <option value="">Select From City</option>
-        <ul>
-          {cities.map(city => (
-            <option key={city} value={city}>{city}</option>
-          ))}
-        </ul>
-      </select>
+      <div>
+        <input 
+          type="text" 
+          placeholder="From City" 
+          value={from} 
+          onChange={e => setFrom(e.target.value)}
+          onFocus={() => setShowFromDropdown(true)}
+        />
+        {showFromDropdown && (
+          <ul>
+            {cities.filter(city => city.toLowerCase().includes(from.toLowerCase())).map(city => (
+              <li key={city} onClick={() => selectCity(city, 'from')}>{city}</li>
+            ))}
+          </ul>
+        )}
+      </div>
 
-      <select value={to} onChange={e => setTo(e.target.value)}>
-        <option value="">Select To City</option>
-        <ul>
-          {cities.map(city => (
-            <option key={city} value={city}>{city}</option>
-          ))}
-        </ul>
-      </select>
+      <div>
+        <input 
+          type="text" 
+          placeholder="To City" 
+          value={to} 
+          onChange={e => setTo(e.target.value)}
+          onFocus={() => setShowToDropdown(true)}
+        />
+        {showToDropdown && (
+          <ul>
+            {cities.filter(city => city.toLowerCase().includes(to.toLowerCase())).map(city => (
+              <li key={city} onClick={() => selectCity(city, 'to')}>{city}</li>
+            ))}
+          </ul>
+        )}
+      </div>
 
       <input type="date" value={date} onChange={e => setDate(e.target.value)} />
       
