@@ -20,7 +20,9 @@
     "css-loader": "^4.3.0",
     "style-loader": "^1.2.1",
     "webpack-cli": "^3.3.12",
-    "cypress": "^9.5.0"
+    "cypress": "^9.5.0",
+      "react-redux": "^8.1.0",
+  "@reduxjs/toolkit": "^1.9.0"
   },
 
   "devDependencies": {
