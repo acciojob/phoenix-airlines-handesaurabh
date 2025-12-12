@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import LandingPage from "./pages/LandingPage";
-import FlightSearch from "./pages/FlightSearch";
-import FlightBooking from "./pages/FlightBooking";
-import Confirmation from "./pages/Confirmation";
+import LandingPage from "../pages/LandingPage";
+import FlightSearch from "../pages/FlightSearch";
+import FlightBooking from "../pages/FlightBooking";
+import Confirmation from "../pages/Confirmation";
 
 function App() {
   return (
