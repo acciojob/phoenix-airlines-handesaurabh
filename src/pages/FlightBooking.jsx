@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setBookingDetails } from "../redux/flightSlice";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 
 export default function FlightBooking() {
   const { selectedFlight } = useSelector(state => state.flight);
