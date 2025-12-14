@@ -3,7 +3,7 @@ import LandingPage from "../pages/LandingPage";
 import FlightSearch from "../pages/FlightSearch";
 import FlightBooking from "../pages/FlightBooking";
 import Confirmation from "../pages/Confirmation";
-import "./styles/App.css";
+import "../styles/App.css";
 
 
 function App() {
