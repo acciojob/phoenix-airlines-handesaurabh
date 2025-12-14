@@ -1,9 +1,17 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { render } from "@testing-library/react";
 import Home from "./home";
 
-describe("Home Component Rendered", () => {
-  let wrapper = shallow(<Home />);
+// Mock the components that are dynamically imported
+jest.mock("./dashboard", () => () => <div>Dashboard</div>);
+jest.mock("../confirmation/confirmation", () => () => <div>Confirmation</div>);
+jest.mock("../search/flight-search", () => () => <div>Flight Search</div>);
+jest.mock("../booking/flight-booking", () => () => <div>Flight Booking</div>);
+jest.mock("../../components/header/header", () => () => <div>Header</div>);
 
-  test(wrapper.find("div"));
+describe("Home Component", () => {
+  test("renders without crashing", () => {
+    const { getByText } = render(<Home />);
+    expect(getByText("Dashboard")).toBeInTheDocument();
+  });
 });
