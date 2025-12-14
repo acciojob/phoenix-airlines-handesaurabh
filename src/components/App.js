@@ -9,6 +9,7 @@ import "../styles/App.css";
 
 function App() {
 return (
+  <h1>Flight Booking App</h1>
 <Routes>
 <Route path="/" element={<LandingPage />} />
 <Route path="/flight-search" element={<FlightSearch />} />
