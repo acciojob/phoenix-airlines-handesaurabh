@@ -6,18 +6,18 @@ import FlightBooking from "../pages/FlightBooking";
 import Confirmation from "../pages/Confirmation";
 import "../styles/App.css";
 
-
 function App() {
-return (
-  <h1>Flight Booking App</h1>
-<Routes>
-<Route path="/" element={<LandingPage />} />
-<Route path="/flight-search" element={<FlightSearch />} />
-<Route path="/flight-booking" element={<FlightBooking />} />
-<Route path="/confirmation" element={<Confirmation />} />
-</Routes>
-);
+  return (
+    <>
+      <h1>Flight Booking App</h1>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/flight-search" element={<FlightSearch />} />
+        <Route path="/flight-booking" element={<FlightBooking />} />
+        <Route path="/confirmation" element={<Confirmation />} />
+      </Routes>
+    </>
+  );
 }
-
 
 export default App;
