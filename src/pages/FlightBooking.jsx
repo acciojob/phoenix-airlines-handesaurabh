@@ -1,58 +1,46 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setBookingDetails } from "../redux/flightSlice";
 import { useNavigate } from "react-router-dom";
 
-export default function FlightBooking() {
-  const { selectedFlight } = useSelector(state => state.flight);
-  const dispatch = useDispatch();
+const FlightBooking = () => {
   const navigate = useNavigate();
 
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    phone: ""
-  });
-
+  const [passengers, setPassengers] = useState("");
+  const [roundTrip, setRoundTrip] = useState(false);
   const [error, setError] = useState("");
 
-  const validate = () => {
-    if (!form.name.trim()) return "Name required";
-    if (!/\S+@\S+\.\S+/.test(form.email)) return "Invalid email";
-    if (!/^\d{10}$/.test(form.phone)) return "Invalid phone number";
-    return "";
-  };
-
-  const handleSubmit = () => {
-    const msg = validate();
-    if (msg) {
-      setError(msg);
+  const handleBook = () => {
+    if (!passengers) {
+      setError("Please enter passenger count");
       return;
     }
-
-    dispatch(setBookingDetails({ ...form, flight: selectedFlight }));
     navigate("/confirmation");
   };
 
   return (
-    <div className="page">
+    <div className="app-container">
       <h2>Flight Booking</h2>
 
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {error && <p className="error">{error}</p>}
 
-      <input type="text" placeholder="Full Name"
-        value={form.name}
-        onChange={e => setForm({ ...form, name: e.target.value })} />
+      <label>Passengers</label>
+      <input
+        type="number"
+        value={passengers}
+        onChange={(e) => setPassengers(e.target.value)}
+      />
 
-      <input type="text" placeholder="Email"
-        value={form.email}
-        onChange={e => setForm({ ...form, email: e.target.value })} />
+      <label>
+        <input
+          type="checkbox"
+          checked={roundTrip}
+          onChange={() => setRoundTrip(!roundTrip)}
+        />
+        Round Trip
+      </label>
 
-      <input type="text" placeholder="Phone"
-        value={form.phone}
-        onChange={e => setForm({ ...form, phone: e.target.value })} />
-
-      <button onClick={handleSubmit}>Confirm Booking</button>
+      <button onClick={handleBook}>Book Flight</button>
     </div>
   );
-}
+};
+
+export default FlightBooking;
