@@ -1,34 +1,40 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { setBookingDetails } from "../redux/flightSlice";
 
-const FlightBooking = () => {
-  const navigate = useNavigate();
-  const [passengers, setPassengers] = useState("");
-  const [error, setError] = useState("");
 
-  const handleBook = () => {
-    if (!passengers) {
-      setError("Enter passenger count");
-      return;
-    }
-    navigate("/confirmation");
-  };
+export default function FlightBooking() {
+const [name, setName] = useState("");
+const [email, setEmail] = useState("");
+const [phone, setPhone] = useState("");
+const [error, setError] = useState("");
 
-  return (
-    <div className="app-container">
-      <h2>Passenger Details</h2>
-      {error && <p className="error">{error}</p>}
 
-      <label>Passengers</label>
-      <input
-        type="text"
-        value={passengers}
-        onChange={(e) => setPassengers(e.target.value)}
-      />
+const dispatch = useDispatch();
+const navigate = useNavigate();
 
-      <button onClick={handleBook}>Confirm Booking</button>
-    </div>
-  );
+
+const handleConfirm = () => {
+if (!name || !email || !phone) {
+setError("All fields are required");
+return;
+}
+
+
+dispatch(setBookingDetails({ name, email, phone }));
+navigate("/confirmation");
 };
 
-export default FlightBooking;
+
+return (
+<div className="container">
+<h3>Passenger Details</h3>
+<input type="text" placeholder="Name" value={name} onChange={e => setName(e.target.value)} />
+<input type="text" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} />
+<input type="text" placeholder="Phone" value={phone} onChange={e => setPhone(e.target.value)} />
+{error && <p className="error">{error}</p>}
+<button onClick={handleConfirm}>Confirm Booking</button>
+</div>
+);
+}
