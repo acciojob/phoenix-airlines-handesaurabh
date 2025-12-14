@@ -6,7 +6,7 @@ import { Grid, CssBaseline, Container, Toolbar } from "@material-ui/core";
 import "../../styles.css";
 
 import Header from "../../components/header/header";
-import ErrorBoundaries from "../../components/error-boundaries/error-boundaries";
+import ErrorBoundaries from "../../components/error/error";
 const Dashboard = lazy(() => import("./dashboard"));
 const Confirmation = lazy(() => import("../confirmation/confirmation"));
 const FlightSearch = lazy(() => import("../search/flight-search"));
