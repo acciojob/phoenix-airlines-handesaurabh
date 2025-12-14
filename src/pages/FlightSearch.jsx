@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { setSearchDetails } from "../redux/flightSlice";
 import { useNavigate } from "react-router-dom";
 
-const cities = ["Delhi", "Mumbai", "Bangalore", "Chennai"];
+const cities = ["New Delhi", "Bengaluru", "Mumbai", "Kolkata"];
 
 const FlightSearch = () => {
   const dispatch = useDispatch();
