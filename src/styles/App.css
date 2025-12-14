@@ -1,39 +1,59 @@
+/* Global reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 body {
-font-family: Arial, sans-serif;
-background: #f4f6f8;
+  background-color: #f5f7fa;
 }
 
-
+/* Common container */
 .container {
-width: 400px;
-margin: 40px auto;
-background: white;
-padding: 20px;
-border-radius: 6px;
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 6px;
 }
 
-
-input, button {
-width: 100%;
-padding: 8px;
-margin: 6px 0;
-}
-
-
+/* Buttons */
 button {
-background: #007bff;
-color: white;
-border: none;
-cursor: pointer;
+  padding: 10px 16px;
+  background-color: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
-
 
 button:disabled {
-background: gray;
+  background-color: #b0bec5;
+  cursor: not-allowed;
 }
 
+/* Inputs */
+input,
+select {
+  padding: 8px;
+  margin: 6px 0 16px 0;
+  width: 100%;
+}
 
-.error {
-color: red;
-font-size: 12px;
+/* Flight list */
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Book flight button (important for Cypress) */
+.book-flight {
+  margin-top: 10px;
 }
