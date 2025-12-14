@@ -1,8 +1,1 @@
-import "jest-enzyme";
-import "jest-styled-components";
-import { configure } from "enzyme";
-import Adapter from "@wojtekmaj/enzyme-adapter-react-17";
-
-const adapter = new Adapter();
-
-configure({ adapter });
+import "@testing-library/jest-dom";
