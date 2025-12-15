@@ -76,6 +76,7 @@ const FlightBooking = () => {
       mobile.trim().length > 0
     ) {
       setErrorFlag(false);
+      
       history.push("/confirmation");
     } else {
       setErrorFlag(true);
