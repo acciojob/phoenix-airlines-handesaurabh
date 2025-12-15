@@ -1,16 +1,12 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Typography, Button, TextField } from "@material-ui/core";
 
 const useStyles = makeStyles(() => ({
-  filterContainer: {
-    marginBottom: 25
-  }
+  filterContainer: { marginBottom: 25 }
 }));
 
 const FlightBooking = () => {
@@ -19,7 +15,6 @@ const FlightBooking = () => {
   const [lName, setLName] = useState("");
   const [email, setEmail] = useState("");
   const [mobile, setMobile] = useState("");
-  
   const [errorFlag, setErrorFlag] = useState(false);
   const history = useHistory();
   const classes = useStyles();
@@ -63,20 +58,41 @@ const FlightBooking = () => {
   };
 
   /**
+   * @function validateEmail
+   * @param {string} email
+   * @description validate email format
+   */
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  /**
+   * @function validateMobile
+   * @param {string} mobile
+   * @description validate mobile number format
+   */
+  const validateMobile = (mobile) => {
+    const mobileRegex = /^\d{10}$/;
+    return mobileRegex.test(mobile);
+  };
+
+  /**
    * @function handleConfirm
    * @param {object} e
    * @description Confirm the booking
    */
   const handleConfirm = () => {
-    // Validate that all fields are filled (more lenient validation)
+    // Validate that all fields are filled and properly formatted
     if (
       fName.trim().length > 0 &&
       lName.trim().length > 0 &&
       email.trim().length > 0 &&
-      mobile.trim().length > 0
+      mobile.trim().length > 0 &&
+      validateEmail(email) &&
+      validateMobile(mobile)
     ) {
       setErrorFlag(false);
-      
       history.push("/confirmation");
     } else {
       setErrorFlag(true);
