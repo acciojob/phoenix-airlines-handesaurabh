@@ -1,105 +1,147 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+
+import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import {
-  TextField,
-  Button,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-  Typography,
-} from "@material-ui/core";
+
+import { makeStyles } from "@material-ui/core/styles";
+import { Grid, Typography, Button, TextField } from "@material-ui/core";
+
+const useStyles = makeStyles(() => ({
+  filterContainer: {
+    marginBottom: 25
+  }
+}));
 
 const FlightBooking = () => {
-  const history = useHistory();
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
-  const [tripType, setTripType] = useState("round");
-  const [flights, setFlights] = useState([]);
-  const [personName, setPersonName] = useState("");
+  const bookingData = useSelector((state) => state.flightSearch.bookingDetails);
+  const [fName, setFName] = useState("");
+  const [lName, setLName] = useState("");
   const [email, setEmail] = useState("");
+  const [mobile, setMobile] = useState("");
+  
+  const [errorFlag, setErrorFlag] = useState(false);
+  const history = useHistory();
+  const classes = useStyles();
 
-  // Fake API call to fetch flights
-  const searchFlights = () => {
-    setTimeout(() => {
-      if (from && to) setFlights([{ id: 1, name: "Flight A" }]);
-      else setFlights([]);
-    }, 500);
+  /**
+   * @function handleFName
+   * @param {object} e
+   * @description get first name
+   */
+  const handleFName = (e) => {
+    setFName(e.target.value);
   };
 
-  const handleSubmit = () => {
-    if (!personName || !email) {
-      alert("Please fill details");
-      return;
+  /**
+   * @function handleLName
+   * @param {object} e
+   * @description get Last name
+   */
+  const handleLName = (e) => {
+    setLName(e.target.value);
+  };
+
+  /**
+   * @function handleEmail
+   * @param {object} e
+   * @description get email id
+   */
+  const handleEmail = (e) => {
+    const inputEmail = e.target.value;
+    setEmail(inputEmail);
+  };
+
+  /**
+   * @function handleMobile
+   * @param {object} e
+   * @description get mobile number
+   */
+  const handleMobile = (e) => {
+    const inputMobile = e.target.value;
+    setMobile(inputMobile);
+  };
+
+  /**
+   * @function handleConfirm
+   * @param {object} e
+   * @description Confirm the booking
+   */
+  const handleConfirm = () => {
+    // Validate that all fields are filled (more lenient validation)
+    if (
+      fName.trim().length > 0 &&
+      lName.trim().length > 0 &&
+      email.trim().length > 0 &&
+      mobile.trim().length > 0
+    ) {
+      setErrorFlag(false);
+      
+      history.push("/confirmation");
+    } else {
+      setErrorFlag(true);
     }
-    history.push("/confirmation");
   };
 
   return (
-    <div>
-      <Typography variant="h5">Flight Booking</Typography>
-      <TextField
-        data-cy="fromInput"
-        label="From"
-        value={from}
-        onChange={(e) => setFrom(e.target.value)}
-      />
-      <TextField
-        data-cy="toInput"
-        label="To"
-        value={to}
-        onChange={(e) => setTo(e.target.value)}
-      />
-
-      <RadioGroup
-        data-cy="tripType"
-        value={tripType}
-        onChange={(e) => setTripType(e.target.value)}
-        row
-      >
-        <FormControlLabel
-          value="round"
-          control={<Radio data-cy="roundTrip" />}
-          label="Round Trip"
+    <Grid container>
+      <Grid item xs={12} className={classes.filterContainer}>
+        <Typography variant="h6">{`Booking Confirmation for Flight ${bookingData?.result?.airlineName} (${bookingData?.result?.flightNbr})`}</Typography>
+      </Grid>
+      <Grid item xs={12} md={6} className={classes.filterContainer}>
+        <TextField
+          required
+          label="First Name"
+          value={fName}
+          onChange={handleFName}
+          className="first_name"
         />
-        <FormControlLabel
-          value="oneway"
-          control={<Radio data-cy="oneWayTrip" />}
-          label="One Way"
+      </Grid>
+      <Grid item xs={12} md={6} className={classes.filterContainer}>
+        <TextField
+          required
+          label="Last Name"
+          value={lName}
+          onChange={handleLName}
+          className="last_name"
         />
-      </RadioGroup>
-
-      <Button data-cy="searchFlights" onClick={searchFlights} variant="contained">
-        Search Flights
-      </Button>
-
-      {flights.length === 0 ? (
-        <Typography data-cy="noFlights">No flights available</Typography>
-      ) : (
-        <div>
-          {flights.map((f) => (
-            <Typography key={f.id}>{f.name}</Typography>
-          ))}
-
-          <TextField
-            data-cy="personName"
-            label="Name"
-            value={personName}
-            onChange={(e) => setPersonName(e.target.value)}
-          />
-          <TextField
-            data-cy="personEmail"
-            label="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-
-          <Button data-cy="bookFlight" onClick={handleSubmit} variant="contained">
-            Book Flight
-          </Button>
-        </div>
-      )}
-    </div>
+      </Grid>
+      <Grid item xs={12} md={6} className={classes.filterContainer}>
+        <TextField
+          required
+          label="Email ID"
+          value={email}
+          onChange={handleEmail}
+          className="email_id"
+        />
+      </Grid>
+      <Grid item xs={12} md={6} className={classes.filterContainer}>
+        <TextField
+          required
+          label="Mobile Number"
+          value={mobile}
+          onChange={handleMobile}
+          className="mobile_number"
+        />
+      </Grid>
+      <Grid item xs={12} md={6} className={classes.filterContainer}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleConfirm}
+          className="confirm_booking"
+        >{`Confirm Booking`}</Button>
+        {errorFlag && (
+          <Typography color="error">{`All Fields are mandatory`}</Typography>
+        )}
+      </Grid>
+    </Grid>
   );
+};
+
+FlightBooking.propTypes = {
+  classes: PropTypes.object,
+  history: PropTypes.object
 };
 
 export default FlightBooking;
