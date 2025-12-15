@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
 
-import actions from "../../constants/actions";
+import actions from "../../contants/actions";
 
 const defaultState = {
   loading: true,
