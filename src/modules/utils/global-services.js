@@ -35,11 +35,13 @@ export const validateSearch = (source, dest, deptDate, returnDate, selectTrip) =
   return false;
 };
 
-export const filterBySourceDest = (flightList, source, destination) => {
+export const filterBySourceDest = (payload, flightList) => {
   // Filter flights by source and destination
   if (!flightList || !Array.isArray(flightList)) {
     return [];
   }
+  
+  const { source, destination } = payload;
   
   return flightList.filter(flight => {
     const matchSource = !source || flight.source?.toLowerCase() === source.toLowerCase();
