@@ -15,8 +15,6 @@ const Confirmation = () => {
   const history = useHistory();
   const classes = useStyles();
   
-  
-
   return (
     <>
       <Typography
