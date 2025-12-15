@@ -50,6 +50,16 @@ const FlightSearch = (props) => {
     dispatch({
       type: actions.RESET_FLIGHT_LIST
     });
+    // Reset form fields
+    setSource("");
+    setDest("");
+    setDeptDate("");
+    setReturnDate("");
+    setSelectTrip("one");
+    setSearchDone(false);
+    setCityError(false);
+    setInputSource("");
+    setInputDest("");
   }, []);
 
   /**
@@ -59,6 +69,9 @@ const FlightSearch = (props) => {
    */
   const handleSource = (newVal) => {
     setSource(newVal);
+    if (cityError && newVal && dest && newVal?.name?.toLowerCase() !== dest?.name?.toLowerCase()) {
+      setCityError(false);
+    }
   };
 
   /**
@@ -68,6 +81,9 @@ const FlightSearch = (props) => {
    */
   const handleDestination = (newVal) => {
     setDest(newVal);
+    if (cityError && newVal && source && newVal?.name?.toLowerCase() !== source?.name?.toLowerCase()) {
+      setCityError(false);
+    }
   };
 
   /**
@@ -77,6 +93,9 @@ const FlightSearch = (props) => {
    */
   const handleDeparture = (e) => {
     setDeptDate(e.target.value);
+    if (searchDone) {
+      setSearchDone(false);
+    }
   };
 
   /**
@@ -95,6 +114,9 @@ const FlightSearch = (props) => {
    */
   const handleReturn = (e) => {
     setReturnDate(e.target.value);
+    if (searchDone) {
+      setSearchDone(false);
+    }
   };
 
   /**
@@ -240,13 +262,7 @@ const FlightSearch = (props) => {
           color="primary"
           className={classes.filterContainer}
           onClick={handleSearchFlight}
-          disabled={validateSearch(
-            source,
-            dest,
-            deptDate,
-            returnDate,
-            selectTrip
-          )}
+          disabled={!source || !dest || !deptDate || (selectTrip?.toUpperCase() === 'BOTH' && !returnDate)}
         >
           {`Search Flight`}
         </Button>
