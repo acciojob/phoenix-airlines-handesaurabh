@@ -69,7 +69,7 @@ const FlightBooking = () => {
    */
   const handleMobile = (e) => {
     const inputMobile = e.target.value;
-    const validMobileRegex = /^(\+\d{1,3}[- ]?)?\d{10}$/;
+    const validMobileRegex = /^[6-9]\d{9}$/;
 
     if (inputMobile.match(validMobileRegex) || inputMobile.length === 0) {
       setMobileValidator(false);
