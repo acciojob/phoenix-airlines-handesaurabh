@@ -38,10 +38,9 @@ const Home = () => {
                     />
                     <Route
                       exact={true}
-                      path={`/confirmation`}>
-                      
-                      <Confirmation />
-                    </Route>
+                      path={`/confirmation`}
+                      component={Confirmation}
+                    />
                   </Switch>
                 </Suspense>
               </ErrorBoundaries>
