@@ -31,7 +31,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const FlightList = (props) => {
+const FlightListOneWay = (props) => {
   const { flightList, bookNow } = props;
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
@@ -152,4 +152,4 @@ FlightListOneWay.propTypes = {
   bookNow: PropTypes.func
 };
 
-export default FlightList;
+export default FlightListOneWay;
