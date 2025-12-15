@@ -22,6 +22,7 @@ const Confirmation = () => {
         variant="body2"
         color="textPrimary"
         className="confirmation_message"
+        id="confirmation-message"
       >{`Thank you for the Booking. Click the below button to return to home page`}</Typography>
       <Button
         variant="outlined"
