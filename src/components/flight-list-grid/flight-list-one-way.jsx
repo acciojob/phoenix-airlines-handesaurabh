@@ -17,7 +17,7 @@ import {
   TableRow
 } from "@material-ui/core";
 
-import { thousandSeparator } from "../../utils/global-services";
+import { thousandSeparator } from "../../modules/utils/global-services";
 
 const useStyles = makeStyles(() => ({
   textAlign: {
