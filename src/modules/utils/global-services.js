@@ -20,10 +20,26 @@ export const thousandSeparator = (num) => {
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };
 
+export const validateSearch = (source, dest, deptDate, returnDate, selectTrip) => {
+  // Return true if form is invalid (to disable button)
+  if (!source || !dest || !deptDate) {
+    return true;
+  }
+  
+  // If round trip is selected, return date is required
+  if (selectTrip?.toUpperCase() === 'BOTH' && !returnDate) {
+    return true;
+  }
+  
+  // All validations passed, form is valid
+  return false;
+};
+
 // Add more utility functions as needed
 export default {
   formatDate,
   formatCurrency,
   formatTime,
   thousandSeparator,
+  validateSearch,
 };
