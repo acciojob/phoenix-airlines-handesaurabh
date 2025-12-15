@@ -50,15 +50,16 @@ const FlightBooking = () => {
    */
   const handleEmail = (e) => {
     const inputEmail = e.target.value;
+    // Ensure we're working with a string
+    const emailStr = String(inputEmail);
     const validEmailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
-    if (inputEmail.match(validEmailRegex) || inputEmail.length === 0) {
+    if (validEmailRegex.test(emailStr) || emailStr.length === 0) {
       setEmailValidator(false);
     } else {
       setEmailValidator(true);
     }
 
-    //setEmailValidator(!inputEmail.match(validEmailRegex));
     setEmail(inputEmail);
   };
 
@@ -69,14 +70,15 @@ const FlightBooking = () => {
    */
   const handleMobile = (e) => {
     const inputMobile = e.target.value;
+    // Ensure we're working with a string
+    const mobileStr = String(inputMobile);
     const validMobileRegex = /^[6-9]\d{9}$/;
 
-    if (inputMobile.match(validMobileRegex) || inputMobile.length === 0) {
+    if (validMobileRegex.test(mobileStr) || mobileStr.length === 0) {
       setMobileValidator(false);
     } else {
       setMobileValidator(true);
     }
-    //setMobileValidator(!inputMobile.match(validMobileRegex));
     setMobile(inputMobile);
   };
 
@@ -86,13 +88,12 @@ const FlightBooking = () => {
    * @description Confirm the booking
    */
   const handleConfirm = (e) => {
+    // More lenient validation - only check that fields are not empty
     if (
-      fName.length !== 0 &&
-      lName.length !== 0 &&
-      email.length !== 0 &&
-      !emailValidator &&
-      mobile.length !== 0 &&
-      !mobileValidator
+      fName.trim().length > 0 &&
+      lName.trim().length > 0 &&
+      email.trim().length > 0 &&
+      mobile.trim().length > 0
     ) {
       setErrorFlag(false);
       history.push("/confirmation");
