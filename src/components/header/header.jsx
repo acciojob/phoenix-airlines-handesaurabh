@@ -7,7 +7,7 @@ const Header = () => {
   return (
     <AppBar>
       <Toolbar>
-        <Typography>{`Flight Booking App`}</Typography>
+        <Typography className="app_header">{`Flight Booking App`}</Typography>
       </Toolbar>
     </AppBar>
   );
