@@ -44,8 +44,8 @@ export const filterBySourceDest = (payload, flightList) => {
   const { source, destination } = payload;
   
   return flightList.filter(flight => {
-    const matchSource = !source || flight.source?.toLowerCase() === source.toLowerCase();
-    const matchDest = !destination || flight.destination?.toLowerCase() === destination.toLowerCase();
+    const matchSource = !source || flight.deptCity?.toLowerCase() === source.toLowerCase();
+    const matchDest = !destination || flight.arrivalCity?.toLowerCase() === destination.toLowerCase();
     return matchSource && matchDest;
   });
 };
