@@ -1,6 +1,6 @@
 import { takeLatest, call } from "redux-saga/effects";
 
-import actions from "../../constants/actions";
+import actions from "../../constants/actions.js";
 import * as worker from "./worker";
 
 export function* watchFlightSearch() {
