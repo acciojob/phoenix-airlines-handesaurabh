@@ -110,6 +110,7 @@ const FlightListOneWay = (props) => {
                               variant="contained"
                               color="primary"
                               onClick={() => bookNow(val)}
+                              className="book_flight"
                             >{`Rs. ${thousandSeparator(val?.price)}`}</Button>
                           </Grid>
                         </Grid>
