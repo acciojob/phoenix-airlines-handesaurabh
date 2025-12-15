@@ -1,57 +1,29 @@
-/**
- * @function validateSearch
- * @param {string} source
- * @param {string} dest
- * @param {string} deptDate
- * @param {string} returnDate
- * @param {string} selectTrip
- * @description validate search criteria
- */
-const validateSearch = (source, dest, deptDate, returnDate, selectTrip) => {
-  let flag = true;
+// Global service utilities
 
-  if (selectTrip?.toUpperCase() === "ONE") {
-    flag = source?.length === 0 || dest?.length === 0 || deptDate?.length === 0;
-  } else {
-    flag =
-      source?.length === 0 ||
-      dest?.length === 0 ||
-      deptDate?.length === 0 ||
-      returnDate?.length === 0;
-  }
-
-  return flag;
+export const formatDate = (date) => {
+  if (!date) return '';
+  return new Date(date).toLocaleDateString();
 };
 
-/**
- * @function thousandSeparator
- * @param {int} x
- * @description Thosand Separator
- */
-const thousandSeparator = (x) => {
-  return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+export const formatCurrency = (amount) => {
+  if (!amount) return '₹0';
+  return `₹${amount.toLocaleString()}`;
 };
 
-/**
- * @function filterBySourceDest
- * @param {object} payload
- * @param {array} response
- * @description filter flight list by source and destination
- */
-const filterBySourceDest = (payload, response) => {
-  let resultArr = [];
-
-  let tempArr = [...response];
-  const sourceCity = payload?.source;
-  const destCity = payload?.destination;
-
-  resultArr = tempArr.filter(
-    (val) =>
-      val?.deptCity?.toLowerCase() === sourceCity?.toLowerCase() &&
-      val?.arivalCity?.toLowerCase() === destCity?.toLowerCase()
-  );
-
-  return resultArr;
+export const formatTime = (time) => {
+  if (!time) return '';
+  return time;
 };
 
-export { validateSearch, thousandSeparator, filterBySourceDest };
+export const thousandSeparator = (num) => {
+  if (!num) return '0';
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+};
+
+// Add more utility functions as needed
+export default {
+  formatDate,
+  formatCurrency,
+  formatTime,
+  thousandSeparator,
+};
