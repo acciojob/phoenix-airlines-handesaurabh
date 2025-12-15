@@ -39,6 +39,7 @@ const Home = () => {
                     <Route
                       exact={true}
                       path={`/confirmation`}>
+                      
                       <Confirmation />
                     </Route>
                   </Switch>
