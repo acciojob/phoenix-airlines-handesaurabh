@@ -10,6 +10,12 @@ const defaultState = {
 
 const searchList = (state = defaultState, action) => {
   switch (action.type) {
+    case actions.GET_FLIGHT_LIST:
+      return Object.assign({}, state, {
+        loading: true,
+        result: null,
+        error: null
+      });
     case actions.GET_FLIGHT_LIST_SUCCESS:
       return Object.assign({}, state, {
         loading: false,
