@@ -5,7 +5,7 @@
   "keywords": [],
   "main": "src/index.js",
   "engines": {
-    "node": ">=18.14.0",
+    "node": ">=16.20.2",
     "npm": ">=8.0.0"
   },
   "dependencies": {
