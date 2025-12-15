@@ -68,26 +68,19 @@ const FlightBooking = () => {
    * @description Confirm the booking
    */
   const handleConfirm = (e) => {
-    // Validate that all fields are filled and values are valid
-    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-    const mobileRegex = /^[6-9]\d{9}$/;
+    // Prevent default form submission behavior
+    e.preventDefault();
     
-    const isEmailValid = emailRegex.test(email.trim());
-    const isMobileValid = mobileRegex.test(mobile.trim());
-    
+    // Validate that all fields are filled (more lenient validation)
     if (
       fName.trim().length > 0 &&
       lName.trim().length > 0 &&
       email.trim().length > 0 &&
-      isEmailValid &&
-      mobile.trim().length > 0 &&
-      isMobileValid
+      mobile.trim().length > 0
     ) {
       setErrorFlag(false);
-      // Small delay to ensure state updates before navigation
-      setTimeout(() => {
-        history.push("/confirmation");
-      }, 100);
+      
+      history.push("/confirmation");
     } else {
       setErrorFlag(true);
     }
@@ -138,7 +131,7 @@ const FlightBooking = () => {
         <Button
           variant="contained"
           color="primary"
-          onClick={(e) => handleConfirm(e)}
+          onClick={handleConfirm}
           className="confirm_booking"
         >{`Confirm Booking`}</Button>
         {errorFlag && (
