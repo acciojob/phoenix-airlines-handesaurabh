@@ -22,14 +22,12 @@ export function* fetFlightList(payload) {
       error: null
     });
   } catch (error) {
-    const errorObj = JSON.parse(error.message);
-
     yield put({
       type: actions.GET_FLIGHT_LIST_ERROR,
       result: null,
       error: {
-        statusCode: errorObj.statusCode,
-        message: errorObj.errorMessage
+        statusCode: 500,
+        message: 'Failed to fetch flights'
       }
     });
   }
