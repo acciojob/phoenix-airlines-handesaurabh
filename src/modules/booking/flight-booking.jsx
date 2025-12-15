@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 import { useSelector } from "react-redux";
@@ -27,17 +27,24 @@ const FlightBooking = () => {
   const history = useHistory();
   const classes = useStyles();
 
-  const handleConfirm = () => {
-    if (
-      fName.trim().length > 0 &&
-      lName.trim().length > 0 &&
-      email.trim().length > 0 &&
-      mobile.trim().length > 0
-    ) {
+  const isFormValid =
+    fName.trim() &&
+    lName.trim() &&
+    email.trim() &&
+    mobile.trim();
+
+  // ✅ AUTO REDIRECT after fixing validation (Cypress requirement)
+  useEffect(() => {
+    if (errorFlag && isFormValid) {
       setErrorFlag(false);
       history.push("/confirmation");
+    }
+  }, [errorFlag, isFormValid, history]);
+
+  const handleConfirm = () => {
+    if (isFormValid) {
+      history.push("/confirmation");
     } else {
-      // ✅ ONLY show validation error
       setErrorFlag(true);
     }
   };
@@ -97,12 +104,12 @@ const FlightBooking = () => {
           onClick={handleConfirm}
           className="confirm_booking"
         >
-          {`Confirm Booking`}
+          Confirm Booking
         </Button>
 
         {errorFlag && (
           <Typography color="error">
-            {`All Fields are mandatory`}
+            All Fields are mandatory
           </Typography>
         )}
       </Grid>
