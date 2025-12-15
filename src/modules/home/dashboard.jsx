@@ -9,12 +9,13 @@ const Dashboard = () => {
 
   return (
     <>
-      <Typography variant="h5">{`Welcome to Flight Booking App`}</Typography>
+      <Typography variant="h5" className="welcome_message">{`Welcome to Flight Booking App`}</Typography>
 
       <Button
         variant="outlined"
         color="primary"
         onClick={() => history.push("/flight-search")}
+        className="search_flights_button"
       >{`Search Flights Here`}</Button>
     </>
   );
