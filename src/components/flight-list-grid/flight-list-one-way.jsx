@@ -100,9 +100,9 @@ const FlightListOneWay = (props) => {
                             </Typography>
                           </Grid>
                           <Grid item xs={2} className={classes.textAlignCenter}>
-                            <Typography>{val.arivalTime}</Typography>
+                            <Typography>{val.arrivalTime}</Typography>
                             <Typography variant="caption">
-                              {val.arivalCity}
+                              {val.arrivalCity}
                             </Typography>
                           </Grid>
                           <Grid item xs={4} className={classes.textAlign}>
