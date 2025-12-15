@@ -112,6 +112,7 @@ const FlightBooking = () => {
           label="First Name"
           value={fName}
           onChange={handleFName}
+          className="first_name"
         />
       </Grid>
       <Grid item xs={12} md={6} className={classes.filterContainer}>
@@ -120,6 +121,7 @@ const FlightBooking = () => {
           label="Last Name"
           value={lName}
           onChange={handleLName}
+          className="last_name"
         />
       </Grid>
       <Grid item xs={12} md={6} className={classes.filterContainer}>
@@ -129,6 +131,7 @@ const FlightBooking = () => {
           label="Email ID"
           value={email}
           onChange={handleEmail}
+          className="email_id"
         />
       </Grid>
       <Grid item xs={12} md={6} className={classes.filterContainer}>
@@ -138,6 +141,7 @@ const FlightBooking = () => {
           label="Mobile Number"
           value={mobile}
           onChange={handleMobile}
+          className="mobile_number"
         />
       </Grid>
       <Grid item xs={12} md={6} className={classes.filterContainer}>
@@ -145,6 +149,7 @@ const FlightBooking = () => {
           variant="contained"
           color="primary"
           onClick={(e) => handleConfirm(e)}
+          className="confirm_booking"
         >{`Confirm Booking`}</Button>
         {errorFlag && (
           <Typography color="error">{`All Fields are mandatory`}</Typography>
