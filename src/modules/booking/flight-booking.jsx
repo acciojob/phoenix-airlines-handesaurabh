@@ -37,13 +37,8 @@ const FlightBooking = () => {
       setErrorFlag(false);
       history.push("/confirmation");
     } else {
-      // ✅ show validation error FIRST
+      // ✅ ONLY show validation error
       setErrorFlag(true);
-
-      // ✅ delay navigation so Cypress can detect error text
-      setTimeout(() => {
-        history.push("/confirmation");
-      }, 1500);
     }
   };
 
