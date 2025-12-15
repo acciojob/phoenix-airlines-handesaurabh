@@ -37,6 +37,7 @@
     "@testing-library/dom": "8.20.1",
     "@testing-library/jest-dom": "5.17.0",
     "@testing-library/react": "12.1.5",
+    "cypress": "^10.11.0",
     "identity-obj-proxy": "^3.0.0",
     "jsesc": "^3.1.0",
     "react-router-dom": "5.2.0",
@@ -46,7 +47,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
   },
   "browserslist": [
     ">0.2%",
