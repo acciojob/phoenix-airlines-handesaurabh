@@ -7,8 +7,8 @@ import "../../styles.css";
 
 import Header from "../../components/header/header";
 import ErrorBoundaries from "../../components/error/error";
+import Confirmation from "../confirmation/confirmation";
 const Dashboard = lazy(() => import("./dashboard"));
-const Confirmation = lazy(() => import("../confirmation/confirmation"));
 const FlightSearch = lazy(() => import("../search/flight-search"));
 const FlightBooking = lazy(() => import("../booking/flight-booking"));
 
@@ -38,9 +38,9 @@ const Home = () => {
                     />
                     <Route
                       exact={true}
-                      path={`/confirmation`}
-                      component={Confirmation}
-                    />
+                      path={`/confirmation`}>
+                      <Confirmation />
+                    </Route>
                   </Switch>
                 </Suspense>
               </ErrorBoundaries>
