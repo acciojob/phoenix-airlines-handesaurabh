@@ -180,11 +180,13 @@ const FlightSearch = (props) => {
             value="one"
             control={<Radio color="primary" />}
             label="One Way"
+            className="one_way_trip"
           />
           <FormControlLabel
             value="both"
             control={<Radio color="primary" />}
             label="Round Trip"
+            className="round_trip"
           />
         </RadioGroup>
       </Grid>
@@ -202,8 +204,9 @@ const FlightSearch = (props) => {
           options={cities}
           style={{ width: 300 }}
           renderInput={(params) => (
-            <TextField {...params} label="Source City" variant="outlined" />
+            <TextField {...params} label="Source City" variant="outlined" className="source_city" />
           )}
+          className="source_autocomplete"
         />
       </Grid>
       <Grid item xs={12} md={6} className={classes.filterContainer}>
@@ -224,8 +227,10 @@ const FlightSearch = (props) => {
               {...params}
               label="Destination City"
               variant="outlined"
+              className="destination_city"
             />
           )}
+          className="destination_autocomplete"
         />
       </Grid>
       <Grid item xs={12} md={6} className={classes.filterContainer}>
@@ -239,6 +244,7 @@ const FlightSearch = (props) => {
           InputLabelProps={{
             shrink: true
           }}
+          className="journey_date"
         />
       </Grid>
       {selectTrip?.toUpperCase() === "BOTH" && (
@@ -253,6 +259,7 @@ const FlightSearch = (props) => {
             InputLabelProps={{
               shrink: true
             }}
+            className="return_date"
           />
         </Grid>
       )}
@@ -260,7 +267,7 @@ const FlightSearch = (props) => {
         <Button
           variant="contained"
           color="primary"
-          className={classes.filterContainer}
+          className={`${classes.filterContainer} search_flight`}
           onClick={handleSearchFlight}
           disabled={!source || !dest || !deptDate || (selectTrip?.toUpperCase() === 'BOTH' && !returnDate)}
         >
