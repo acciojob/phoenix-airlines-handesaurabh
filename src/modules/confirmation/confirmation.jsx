@@ -18,6 +18,7 @@ const Confirmation = () => {
   
   return (
     <>
+      
       <Typography
         variant="body2"
         color="textPrimary"
