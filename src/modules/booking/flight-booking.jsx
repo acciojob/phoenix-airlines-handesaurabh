@@ -19,8 +19,7 @@ const FlightBooking = () => {
   const [lName, setLName] = useState("");
   const [email, setEmail] = useState("");
   const [mobile, setMobile] = useState("");
-  const [emailValidator, setEmailValidator] = useState(false);
-  const [mobileValidator, setMobileValidator] = useState(false);
+  
   const [errorFlag, setErrorFlag] = useState(false);
   const history = useHistory();
   const classes = useStyles();
@@ -50,16 +49,6 @@ const FlightBooking = () => {
    */
   const handleEmail = (e) => {
     const inputEmail = e.target.value;
-    // Ensure we're working with a string
-    const emailStr = String(inputEmail);
-    const validEmailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-
-    if (validEmailRegex.test(emailStr) || emailStr.length === 0) {
-      setEmailValidator(false);
-    } else {
-      setEmailValidator(true);
-    }
-
     setEmail(inputEmail);
   };
 
@@ -70,15 +59,6 @@ const FlightBooking = () => {
    */
   const handleMobile = (e) => {
     const inputMobile = e.target.value;
-    // Ensure we're working with a string
-    const mobileStr = String(inputMobile);
-    const validMobileRegex = /^[6-9]\d{9}$/;
-
-    if (validMobileRegex.test(mobileStr) || mobileStr.length === 0) {
-      setMobileValidator(false);
-    } else {
-      setMobileValidator(true);
-    }
     setMobile(inputMobile);
   };
 
@@ -88,15 +68,26 @@ const FlightBooking = () => {
    * @description Confirm the booking
    */
   const handleConfirm = (e) => {
-    // More lenient validation - only check that fields are not empty
+    // Validate that all fields are filled and values are valid
+    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    const mobileRegex = /^[6-9]\d{9}$/;
+    
+    const isEmailValid = emailRegex.test(email.trim());
+    const isMobileValid = mobileRegex.test(mobile.trim());
+    
     if (
       fName.trim().length > 0 &&
       lName.trim().length > 0 &&
       email.trim().length > 0 &&
-      mobile.trim().length > 0
+      isEmailValid &&
+      mobile.trim().length > 0 &&
+      isMobileValid
     ) {
       setErrorFlag(false);
-      history.push("/confirmation");
+      // Small delay to ensure state updates before navigation
+      setTimeout(() => {
+        history.push("/confirmation");
+      }, 100);
     } else {
       setErrorFlag(true);
     }
@@ -128,7 +119,6 @@ const FlightBooking = () => {
       <Grid item xs={12} md={6} className={classes.filterContainer}>
         <TextField
           required
-          error={emailValidator}
           label="Email ID"
           value={email}
           onChange={handleEmail}
@@ -138,7 +128,6 @@ const FlightBooking = () => {
       <Grid item xs={12} md={6} className={classes.filterContainer}>
         <TextField
           required
-          error={mobileValidator}
           label="Mobile Number"
           value={mobile}
           onChange={handleMobile}
