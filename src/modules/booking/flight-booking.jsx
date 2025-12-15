@@ -1,51 +1,74 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Typography, Button, TextField } from "@material-ui/core";
 
 const useStyles = makeStyles(() => ({
   filterContainer: {
-    marginBottom: 25,
-  },
+    marginBottom: 25
+  }
 }));
 
 const FlightBooking = () => {
-  // Assuming Redux state structure: state.flightSearch.bookingDetails
   const bookingData = useSelector((state) => state.flightSearch.bookingDetails);
-  
   const [fName, setFName] = useState("");
   const [lName, setLName] = useState("");
   const [email, setEmail] = useState("");
   const [mobile, setMobile] = useState("");
-  const [errorFlag, setErrorFlag] = useState(false);
   
+  const [errorFlag, setErrorFlag] = useState(false);
   const history = useHistory();
   const classes = useStyles();
 
+  /**
+   * @function handleFName
+   * @param {object} e
+   * @description get first name
+   */
   const handleFName = (e) => {
     setFName(e.target.value);
   };
 
+  /**
+   * @function handleLName
+   * @param {object} e
+   * @description get Last name
+   */
   const handleLName = (e) => {
     setLName(e.target.value);
   };
 
+  /**
+   * @function handleEmail
+   * @param {object} e
+   * @description get email id
+   */
   const handleEmail = (e) => {
-    setEmail(e.target.value);
+    const inputEmail = e.target.value;
+    setEmail(inputEmail);
   };
 
+  /**
+   * @function handleMobile
+   * @param {object} e
+   * @description get mobile number
+   */
   const handleMobile = (e) => {
-    // Basic number validation could be added here
-    setMobile(e.target.value);
+    const inputMobile = e.target.value;
+    setMobile(inputMobile);
   };
 
   /**
    * @function handleConfirm
-   * @description Confirm the booking and navigate if fields are filled
+   * @param {object} e
+   * @description Confirm the booking
    */
   const handleConfirm = () => {
+    // Validate that all fields are filled (more lenient validation)
     if (
       fName.trim().length > 0 &&
       lName.trim().length > 0 &&
@@ -53,52 +76,75 @@ const FlightBooking = () => {
       mobile.trim().length > 0
     ) {
       setErrorFlag(false);
-      // Logic for actual booking API call would go here
-      history.push("/confirmation");
+      // Add a small delay to ensure state updates before navigation
+      setTimeout(() => {
+        
+        history.push("/confirmation");
+      }, 100);
     } else {
       setErrorFlag(true);
     }
   };
 
   return (
-    <Grid container spacing={2}> {/* Added spacing for better layout */}
+    <Grid container>
       <Grid item xs={12} className={classes.filterContainer}>
-        <Typography variant="h6">
-          {`Booking Confirmation for Flight ${bookingData?.result?.airlineName || 'Airline'} (${bookingData?.result?.flightNbr || 'N/A'})`}
-        </Typography>
-      </Grid>
-      
-      <Grid item xs={12} md={6} className={classes.filterContainer}>
-        <TextField required label="First Name" value={fName} onChange={handleFName} fullWidth className="first_name" />
+        <Typography variant="h6">{`Booking Confirmation for Flight ${bookingData?.result?.airlineName} (${bookingData?.result?.flightNbr})`}</Typography>
       </Grid>
       <Grid item xs={12} md={6} className={classes.filterContainer}>
-        <TextField required label="Last Name" value={lName} onChange={handleLName} fullWidth className="last_name" />
+        <TextField
+          required
+          label="First Name"
+          value={fName}
+          onChange={handleFName}
+          className="first_name"
+        />
       </Grid>
-      
       <Grid item xs={12} md={6} className={classes.filterContainer}>
-        <TextField required label="Email ID" value={email} onChange={handleEmail} fullWidth className="email_id" />
+        <TextField
+          required
+          label="Last Name"
+          value={lName}
+          onChange={handleLName}
+          className="last_name"
+        />
       </Grid>
       <Grid item xs={12} md={6} className={classes.filterContainer}>
-        <TextField required label="Mobile Number" value={mobile} onChange={handleMobile} fullWidth className="mobile_number" />
+        <TextField
+          required
+          label="Email ID"
+          value={email}
+          onChange={handleEmail}
+          className="email_id"
+        />
       </Grid>
-      
       <Grid item xs={12} md={6} className={classes.filterContainer}>
-        <Button variant="contained" color="primary" onClick={handleConfirm} className="confirm_booking">
-          Confirm Booking
-        </Button>
+        <TextField
+          required
+          label="Mobile Number"
+          value={mobile}
+          onChange={handleMobile}
+          className="mobile_number"
+        />
+      </Grid>
+      <Grid item xs={12} md={6} className={classes.filterContainer}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleConfirm}
+          className="confirm_booking"
+        >{`Confirm Booking`}</Button>
         {errorFlag && (
-          <Typography color="error" style={{ marginTop: '10px' }}>
-            All Fields are mandatory
-          </Typography>
+          <Typography color="error">{`All Fields are mandatory`}</Typography>
         )}
       </Grid>
     </Grid>
   );
 };
 
-// Removed `classes` from propTypes as it's not passed but generated by hook.
 FlightBooking.propTypes = {
-  history: PropTypes.object,
-}; 
+  classes: PropTypes.object,
+  history: PropTypes.object
+};
 
 export default FlightBooking;
