@@ -35,6 +35,19 @@ export const validateSearch = (source, dest, deptDate, returnDate, selectTrip) =
   return false;
 };
 
+export const filterBySourceDest = (flightList, source, destination) => {
+  // Filter flights by source and destination
+  if (!flightList || !Array.isArray(flightList)) {
+    return [];
+  }
+  
+  return flightList.filter(flight => {
+    const matchSource = !source || flight.source?.toLowerCase() === source.toLowerCase();
+    const matchDest = !destination || flight.destination?.toLowerCase() === destination.toLowerCase();
+    return matchSource && matchDest;
+  });
+};
+
 // Add more utility functions as needed
 export default {
   formatDate,
@@ -42,4 +55,5 @@ export default {
   formatTime,
   thousandSeparator,
   validateSearch,
+  filterBySourceDest,
 };
