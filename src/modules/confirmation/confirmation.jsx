@@ -20,11 +20,12 @@ const Confirmation = () => {
       <Typography
         variant="body2"
         color="textPrimary"
+        className="confirmation_message"
       >{`Thank you for the Booking. Click the below button to return to home page`}</Typography>
       <Button
         variant="outlined"
         color="primary"
-        className={classes.button}
+        className={`${classes.button} back_to_home`}
         onClick={() => history.push("/")}
       >{`Back to Home`}</Button>
     </>
