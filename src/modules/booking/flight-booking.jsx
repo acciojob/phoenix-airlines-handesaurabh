@@ -67,12 +67,7 @@ const FlightBooking = () => {
    * @param {object} e
    * @description Confirm the booking
    */
-  const handleConfirm = (e) => {
-    // Prevent default form submission behavior
-    e.preventDefault();
-    
-    
-    
+  const handleConfirm = () => {
     // Validate that all fields are filled (more lenient validation)
     if (
       fName.trim().length > 0 &&
@@ -81,69 +76,65 @@ const FlightBooking = () => {
       mobile.trim().length > 0
     ) {
       setErrorFlag(false);
-      
       history.push("/confirmation");
     } else {
       setErrorFlag(true);
-      
     }
   };
 
   return (
-    <form onSubmit={handleConfirm}>
-      <Grid container>
-        <Grid item xs={12} className={classes.filterContainer}>
-          <Typography variant="h6">{`Booking Confirmation for Flight ${bookingData?.result?.airlineName} (${bookingData?.result?.flightNbr})`}</Typography>
-        </Grid>
-        <Grid item xs={12} md={6} className={classes.filterContainer}>
-          <TextField
-            required
-            label="First Name"
-            value={fName}
-            onChange={handleFName}
-            className="first_name"
-          />
-        </Grid>
-        <Grid item xs={12} md={6} className={classes.filterContainer}>
-          <TextField
-            required
-            label="Last Name"
-            value={lName}
-            onChange={handleLName}
-            className="last_name"
-          />
-        </Grid>
-        <Grid item xs={12} md={6} className={classes.filterContainer}>
-          <TextField
-            required
-            label="Email ID"
-            value={email}
-            onChange={handleEmail}
-            className="email_id"
-          />
-        </Grid>
-        <Grid item xs={12} md={6} className={classes.filterContainer}>
-          <TextField
-            required
-            label="Mobile Number"
-            value={mobile}
-            onChange={handleMobile}
-            className="mobile_number"
-          />
-        </Grid>
-        <Grid item xs={12} md={6} className={classes.filterContainer}>
-          <Button
-            variant="contained"
-            color="primary"
-            type="submit"
-            className="confirm_booking"
-          >{`Confirm Booking`}</Button>
-          {errorFlag && (
-            <Typography color="error">{`All Fields are mandatory`}</Typography>
-          )}
-        </Grid>
+    <Grid container>
+      <Grid item xs={12} className={classes.filterContainer}>
+        <Typography variant="h6">{`Booking Confirmation for Flight ${bookingData?.result?.airlineName} (${bookingData?.result?.flightNbr})`}</Typography>
       </Grid>
-    </form>
+      <Grid item xs={12} md={6} className={classes.filterContainer}>
+        <TextField
+          required
+          label="First Name"
+          value={fName}
+          onChange={handleFName}
+          className="first_name"
+        />
+      </Grid>
+      <Grid item xs={12} md={6} className={classes.filterContainer}>
+        <TextField
+          required
+          label="Last Name"
+          value={lName}
+          onChange={handleLName}
+          className="last_name"
+        />
+      </Grid>
+      <Grid item xs={12} md={6} className={classes.filterContainer}>
+        <TextField
+          required
+          label="Email ID"
+          value={email}
+          onChange={handleEmail}
+          className="email_id"
+        />
+      </Grid>
+      <Grid item xs={12} md={6} className={classes.filterContainer}>
+        <TextField
+          required
+          label="Mobile Number"
+          value={mobile}
+          onChange={handleMobile}
+          className="mobile_number"
+        />
+      </Grid>
+      <Grid item xs={12} md={6} className={classes.filterContainer}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleConfirm}
+          className="confirm_booking"
+        >{`Confirm Booking`}</Button>
+        {errorFlag && (
+          <Typography color="error">{`All Fields are mandatory`}</Typography>
+        )}
+      </Grid>
+    </Grid>
   );
 };
 
