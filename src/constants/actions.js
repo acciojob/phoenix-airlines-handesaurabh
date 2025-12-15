@@ -1,3 +1,4 @@
+// Action types for the application
 export const SEARCH_FLIGHTS = 'SEARCH_FLIGHTS';
 export const SEARCH_FLIGHTS_SUCCESS = 'SEARCH_FLIGHTS_SUCCESS';
 export const SEARCH_FLIGHTS_FAILURE = 'SEARCH_FLIGHTS_FAILURE';
@@ -5,3 +6,14 @@ export const SELECT_FLIGHT = 'SELECT_FLIGHT';
 export const BOOK_FLIGHT = 'BOOK_FLIGHT';
 export const BOOK_FLIGHT_SUCCESS = 'BOOK_FLIGHT_SUCCESS';
 export const BOOK_FLIGHT_FAILURE = 'BOOK_FLIGHT_FAILURE';
+
+// Default export - object containing all actions
+export default {
+  SEARCH_FLIGHTS,
+  SEARCH_FLIGHTS_SUCCESS,
+  SEARCH_FLIGHTS_FAILURE,
+  SELECT_FLIGHT,
+  BOOK_FLIGHT,
+  BOOK_FLIGHT_SUCCESS,
+  BOOK_FLIGHT_FAILURE,
+};
