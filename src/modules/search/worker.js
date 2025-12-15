@@ -1,7 +1,7 @@
 import { put, call } from "redux-saga/effects";
 
 import actions from "../../constants/actions";
-import { filterBySourceDest } from "../../utils/global-services";
+import { filterBySourceDest } from "../../modules/utils/global-services";
 //import { get } from "../../utils/xhr";
 
 import FlightJSON from "../../mocks/flights-mumbai.json";
