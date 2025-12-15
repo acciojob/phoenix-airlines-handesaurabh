@@ -4,7 +4,7 @@ import actions from "../../constants/actions";
 import { filterBySourceDest } from "../../utils/global-services";
 //import { get } from "../../utils/xhr";
 
-import FlightJSON from "../../mocks/flights-one-way-mumbai.json";
+import FlightJSON from "../../mocks/flights-mumbai.json";
 
 export function* fetFlightList(payload) {
   // put API URL here
