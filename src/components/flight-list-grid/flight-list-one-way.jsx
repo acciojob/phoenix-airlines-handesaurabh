@@ -131,7 +131,7 @@ const FlightListOneWay = (props) => {
         />
       </Table>
     );
-  } else if (flightList?.result?.length === 0) {
+  } else if (flightList?.result && flightList?.result?.length === 0) {
     component = <Typography>{`No Records Found..`}</Typography>;
   } else if (flightList?.error) {
     component = <Typography>{`Unable to fetch Data...`}</Typography>;
