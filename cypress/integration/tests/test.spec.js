@@ -79,6 +79,7 @@ describe('Flight Booking App', () => {
     // Should show validation errors
     cy.get('[data-testid="name-error"]').should('be.visible');
     cy.get('[data-testid="age-error"]').should('be.visible');
+    cy.get('[data-testid="gender-error"]').should('be.visible');
     cy.get('[data-testid="contact-error"]').should('be.visible');
 
     // Fill in correct details
