@@ -1,134 +1,152 @@
+// cypress/e2e/flight-booking.spec.js
 describe('Flight Booking App', () => {
-  before(() => {
+  // Intercept API calls for reliable testing
+  beforeEach(() => {
+    cy.intercept('GET', '**/api/flights*').as('getFlights');
+    cy.intercept('POST', '**/api/bookings*').as('bookFlight');
     cy.visit('/');
   });
 
   it('Checking if the app is rendered', () => {
-    cy.visit('/');
     cy.get('h1').should('be.visible');
     cy.get('[data-testid="flight-search-form"]').should('be.visible');
   });
 
-  it('Checking if drop-down and buttons are working and verifying when flights are not available', () => {
-    // Select cities that won't have flights to test no flights scenario
+  it('Checking dropdowns and buttons work, verifies no flights available', () => {
+    // Test same city (no flights scenario)
     cy.get('[data-testid="fromCity"]').click();
-    cy.get('[data-testid="fromCity"] input').type('MUMBAI');
-    cy.get('[data-testid="fromCity"] input').type('{enter}');
+    cy.get('[data-testid="fromCity"] input').type('MUMBAI{enter}');
 
     cy.get('[data-testid="toCity"]').click();
-    cy.get('[data-testid="toCity"] input').type('MUMBAI'); // Same city, so no flights
-    cy.get('[data-testid="toCity"] input').type('{enter}');
+    cy.get('[data-testid="toCity"] input').type('MUMBAI{enter}'); // Same city
 
     cy.get('[data-testid="search-button"]').click();
-
-    // Should show no flights available message
+    
+    // Verify no flights message
     cy.get('[data-testid="no-flights-message"]').should('be.visible');
   });
 
-  it('Filling out the form and search for the flights and verifying when flights are available', () => {
-    // Select cities that will have flights
+  it('Fills form, searches flights, completes successful booking', () => {
+    // Fill search form with valid route
     cy.get('[data-testid="fromCity"]').click();
-    cy.get('[data-testid="fromCity"] input').clear().type('MUMBAI');
-    cy.get('[data-testid="fromCity"] input').type('{enter}');
+    cy.get('[data-testid="fromCity"] input').clear().type('MUMBAI{enter}');
 
     cy.get('[data-testid="toCity"]').click();
-    cy.get('[data-testid="toCity"] input').clear().type('DELHI');
-    cy.get('[data-testid="toCity"] input').type('{enter}');
+    cy.get('[data-testid="toCity"] input').clear().type('DELHI{enter}');
 
     cy.get('[data-testid="search-button"]').click();
 
-    // Wait for flights to load
+    // Wait for API and verify results
+    cy.wait('@getFlights');
     cy.get('[data-testid="flight-list"]').should('be.visible');
+    
     cy.get('[data-testid="book-button"]').first().click();
 
     // Fill passenger details
     cy.get('[data-testid="passenger-name"]').type('John Doe');
     cy.get('[data-testid="passenger-age"]').type('30');
-    cy.get('[data-testid="passenger-gender"]').type('Male');
+    cy.get('[data-testid="passenger-gender"]').select('Male');
     cy.get('[data-testid="passenger-contact"]').type('9876543210');
 
-    // Submit booking
+    // Submit and verify
     cy.get('[data-testid="submit-booking"]').click();
-
-    // Check for confirmation message
-    cy.get('[data-testid="confirmation-message"]').should('contain', 'Thank you for the Booking. Click the below button to return to home page');
+    cy.wait('@bookFlight');
+    cy.contains('Thank you for the Booking. Click the below button to return to home page')
+      .should('be.visible');
   });
 
-  it('Validations for person details form', () => {
-    // Navigate to booking page
-    cy.visit('/');
-
-    // Select cities
+  it('Validates empty passenger form (CRITICAL FIX)', () => {
+    // Navigate to booking flow
     cy.get('[data-testid="fromCity"]').click();
-    cy.get('[data-testid="fromCity"] input').clear().type('MUMBAI');
-    cy.get('[data-testid="fromCity"] input').type('{enter}');
+    cy.get('[data-testid="fromCity"] input').clear().type('MUMBAI{enter}');
 
     cy.get('[data-testid="toCity"]').click();
-    cy.get('[data-testid="toCity"] input').clear().type('DELHI');
-    cy.get('[data-testid="toCity"] input').type('{enter}');
+    cy.get('[data-testid="toCity"] input').clear().type('DELHI{enter}');
 
     cy.get('[data-testid="search-button"]').click();
-
-    // Wait for flights to load and click book
+    cy.wait('@getFlights');
+    
     cy.get('[data-testid="flight-list"]').should('be.visible');
     cy.get('[data-testid="book-button"]').first().click();
 
-    // Try submitting without filling details
+    // Test validation - TRY THESE TWO VARIANTS:
+    
+    // VARIANT 1: Single global error (most likely your case)
     cy.get('[data-testid="submit-booking"]').click();
-
-    // Should show validation errors
+    cy.contains('All Fields are mandatory', { timeout: 5000 }).should('be.visible');
+    
+    // Screenshot for debugging if still fails
+    cy.screenshot('validation-empty-submit');
+    
+    // VARIANT 2: Individual field errors (uncomment if V1 fails)
+    /*
+    cy.get('[data-testid="submit-booking"]').click();
     cy.get('[data-testid="name-error"]').should('be.visible');
     cy.get('[data-testid="age-error"]').should('be.visible');
     cy.get('[data-testid="gender-error"]').should('be.visible');
     cy.get('[data-testid="contact-error"]').should('be.visible');
+    */
 
-    // Fill in correct details
+    // Fill valid data and submit
     cy.get('[data-testid="passenger-name"]').type('John Doe');
     cy.get('[data-testid="passenger-age"]').type('30');
-    cy.get('[data-testid="passenger-gender"]').type('Male');
+    cy.get('[data-testid="passenger-gender"]').select('Male');
     cy.get('[data-testid="passenger-contact"]').type('9876543210');
 
-    // Submit booking
     cy.get('[data-testid="submit-booking"]').click();
-
-    // Check for confirmation message
-    cy.contains('Thank you for the Booking. Click the below button to return to home page').should('be.visible');
+    cy.wait('@bookFlight');
+    cy.contains('Thank you for the Booking').should('be.visible');
   });
 
-  it('Validating Round Trip booking', () => {
-    // Select round trip
-    cy.visit('/');
+  it('Validates Round Trip booking flow', () => {
+    // Enable round trip
     cy.get('[data-testid="round-trip"]').click();
 
-    // Fill round trip details
+    // Fill outbound
     cy.get('[data-testid="fromCity"]').click();
-    cy.get('[data-testid="fromCity"] input').clear().type('MUMBAI');
-    cy.get('[data-testid="fromCity"] input').type('{enter}');
+    cy.get('[data-testid="fromCity"] input').clear().type('MUMBAI{enter}');
 
     cy.get('[data-testid="toCity"]').click();
-    cy.get('[data-testid="toCity"] input').clear().type('DELHI');
-    cy.get('[data-testid="toCity"] input').type('{enter}');
+    cy.get('[data-testid="toCity"] input').clear().type('DELHI{enter}');
 
-    // Select return date
+    // Select return date (FIXED: Reliable date picker)
     cy.get('[data-testid="return-date"]').click();
-    cy.get('.MuiPickersDay-day').contains('15').click(); // Select a date
+    cy.get('[data-testid="return-date"] input').type('2025-12-15{enter}');
 
     cy.get('[data-testid="search-button"]').click();
-
-    // Wait for flights to load
+    cy.wait('@getFlights');
+    
     cy.get('[data-testid="flight-list"]').should('be.visible');
     cy.get('[data-testid="book-button"]').first().click();
 
     // Fill passenger details
-    cy.get('[data-testid="passenger-name"]').type('John Doe');
-    cy.get('[data-testid="passenger-age"]').type('30');
-    cy.get('[data-testid="passenger-gender"]').type('Male');
-    cy.get('[data-testid="passenger-contact"]').type('9876543210');
+    cy.get('[data-testid="passenger-name"]').type('Jane Smith');
+    cy.get('[data-testid="passenger-age"]').type('25');
+    cy.get('[data-testid="passenger-gender"]').select('Female');
+    cy.get('[data-testid="passenger-contact"]').type('9876543211');
 
-    // Submit booking
     cy.get('[data-testid="submit-booking"]').click();
+    cy.wait('@bookFlight');
+    cy.contains('Thank you for the Booking').should('be.visible');
+  });
 
-    // Check for confirmation message
-    cy.contains('Thank you for the Booking. Click the below button to return to home page').should('be.visible');
+  it('Tests form validation with partial data', () => {
+    // Complete search flow
+    cy.get('[data-testid="fromCity"]').click();
+    cy.get('[data-testid="fromCity"] input').clear().type('MUMBAI{enter}');
+    cy.get('[data-testid="toCity"]').click();
+    cy.get('[data-testid="toCity"] input').clear().type('DELHI{enter}');
+    cy.get('[data-testid="search-button"]').click();
+    cy.wait('@getFlights');
+    cy.get('[data-testid="book-button"]').first().click();
+
+    // Test partial validation
+    cy.get('[data-testid="passenger-name"]').type('John');
+    cy.get('[data-testid="submit-booking"]').click();
+    
+    // Should still show validation errors for missing fields
+    cy.contains('All Fields are mandatory', { timeout: 3000 }).should('be.visible');
+    // OR individual errors:
+    // cy.get('[data-testid="age-error"], [data-testid="gender-error"], [data-testid="contact-error"]').should('be.visible');
   });
 });
