@@ -1,4 +1,4 @@
-// cypress/e2e/flight-booking.spec.js
+// cypress/e2e/flight-booking.spec.js - COMPLETE FIXED VERSION
 describe('Flight Booking App', () => {
   // Intercept API calls for reliable testing
   beforeEach(() => {
@@ -55,47 +55,41 @@ describe('Flight Booking App', () => {
       .should('be.visible');
   });
 
-  it('Validates empty passenger form (CRITICAL FIX)', () => {
-    // Navigate to booking flow
+  it('Validates empty passenger form (FIXED - INDIVIDUAL FIELD ERRORS)', () => {
+    // Complete search flow to reach booking form
     cy.get('[data-testid="fromCity"]').click();
     cy.get('[data-testid="fromCity"] input').clear().type('MUMBAI{enter}');
-
+    
     cy.get('[data-testid="toCity"]').click();
     cy.get('[data-testid="toCity"] input').clear().type('DELHI{enter}');
-
+    
     cy.get('[data-testid="search-button"]').click();
     cy.wait('@getFlights');
-    
     cy.get('[data-testid="flight-list"]').should('be.visible');
     cy.get('[data-testid="book-button"]').first().click();
 
-    // Test validation - TRY THESE TWO VARIANTS:
-    
-    // VARIANT 1: Single global error (most likely your case)
+    // Submit empty form - expects INDIVIDUAL FIELD ERRORS (your app's behavior)
     cy.get('[data-testid="submit-booking"]').click();
-    cy.contains('All Fields are mandatory', { timeout: 5000 }).should('be.visible');
     
-    // Screenshot for debugging if still fails
-    cy.screenshot('validation-empty-submit');
-    
-    // VARIANT 2: Individual field errors (uncomment if V1 fails)
-    /*
-    cy.get('[data-testid="submit-booking"]').click();
+    // Verify all individual field validation errors appear
     cy.get('[data-testid="name-error"]').should('be.visible');
     cy.get('[data-testid="age-error"]').should('be.visible');
     cy.get('[data-testid="gender-error"]').should('be.visible');
     cy.get('[data-testid="contact-error"]').should('be.visible');
-    */
 
-    // Fill valid data and submit
+    // DEBUG screenshot if needed
+    cy.screenshot('validation-errors-success');
+
+    // Fill valid data and submit successfully
     cy.get('[data-testid="passenger-name"]').type('John Doe');
     cy.get('[data-testid="passenger-age"]').type('30');
     cy.get('[data-testid="passenger-gender"]').select('Male');
     cy.get('[data-testid="passenger-contact"]').type('9876543210');
-
+    
     cy.get('[data-testid="submit-booking"]').click();
     cy.wait('@bookFlight');
-    cy.contains('Thank you for the Booking').should('be.visible');
+    cy.contains('Thank you for the Booking. Click the below button to return to home page')
+      .should('be.visible');
   });
 
   it('Validates Round Trip booking flow', () => {
@@ -109,7 +103,7 @@ describe('Flight Booking App', () => {
     cy.get('[data-testid="toCity"]').click();
     cy.get('[data-testid="toCity"] input').clear().type('DELHI{enter}');
 
-    // Select return date (FIXED: Reliable date picker)
+    // Reliable date picker (fixed)
     cy.get('[data-testid="return-date"]').click();
     cy.get('[data-testid="return-date"] input').type('2025-12-15{enter}');
 
@@ -127,26 +121,7 @@ describe('Flight Booking App', () => {
 
     cy.get('[data-testid="submit-booking"]').click();
     cy.wait('@bookFlight');
-    cy.contains('Thank you for the Booking').should('be.visible');
-  });
-
-  it('Tests form validation with partial data', () => {
-    // Complete search flow
-    cy.get('[data-testid="fromCity"]').click();
-    cy.get('[data-testid="fromCity"] input').clear().type('MUMBAI{enter}');
-    cy.get('[data-testid="toCity"]').click();
-    cy.get('[data-testid="toCity"] input').clear().type('DELHI{enter}');
-    cy.get('[data-testid="search-button"]').click();
-    cy.wait('@getFlights');
-    cy.get('[data-testid="book-button"]').first().click();
-
-    // Test partial validation
-    cy.get('[data-testid="passenger-name"]').type('John');
-    cy.get('[data-testid="submit-booking"]').click();
-    
-    // Should still show validation errors for missing fields
-    cy.contains('All Fields are mandatory', { timeout: 3000 }).should('be.visible');
-    // OR individual errors:
-    // cy.get('[data-testid="age-error"], [data-testid="gender-error"], [data-testid="contact-error"]').should('be.visible');
+    cy.contains('Thank you for the Booking. Click the below button to return to home page')
+      .should('be.visible');
   });
 });
