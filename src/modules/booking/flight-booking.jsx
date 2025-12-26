@@ -139,6 +139,9 @@ const FlightBooking = () => {
           className="confirm_booking"
           data-testid="submit-booking"
         >{`Confirm Booking`}</Button>
+        {errorFlag && !fName.trim().length && !lName.trim().length && !email.trim().length && !mobile.trim().length && (
+          <Typography color="error" data-testid="name-error">{`All Fields are mandatory`}</Typography>
+        )}
         {errorFlag && fName.trim().length === 0 && (
           <Typography color="error" data-testid="name-error">{`Name is required`}</Typography>
         )}
